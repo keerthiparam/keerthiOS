@@ -1,0 +1,146 @@
+body {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background-color: #1e1e1e;
+  color: #00ff00;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: auto;
+  /* Only show scrollbar when needed */
+  overflow-y: auto;
+}
+
+.output {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prompt {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  word-break: break-word;
+}
+
+input {
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font: inherit;
+  outline: none;
+  flex: 1;
+  padding: 5px;
+  font-size: 18px;
+  width: 100%;
+}
+
+a {
+  color: #00ff00;
+  text-decoration: none;
+}
+
+.project-link:hover, .contact-link:hover {
+  background-color: #00ff00;
+  color: #1e1e1e;
+  text-decoration: none; /* Remove underline */
+}
+
+/* Scrollbar Styling for WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e; /* Dark track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00ff00; /* Neon green thumb */
+  border-radius: 10px;
+  border: 2px solid #1e1e1e; /* Matches background */
+}
+
+/* Firefox (limited support) */
+body {
+  scrollbar-color: #00ff00 #1e1e1e;
+  scrollbar-width: thin;
+}
+
+.clickable {
+  cursor: pointer;
+  padding: 2px 6px;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #00ff00; /* terminal green text */
+}
+
+.clickable:hover {
+  background-color: #00ff00;
+  color: #1e1e1e; /* dark background color, text changes for contrast */
+  text-decoration: none;
+}
+
+.clickable:active {
+  background-color: #008000; /* darker green */
+  color: #ffffff;
+}
+
+::selection {
+  background: #00ff00; /* Neon green background */
+  color: #1e1e1e;      /* Terminal background color as font color */
+}
+
+/* ASCII Art Banner */
+.ascii-art {
+  font-family: monospace;
+  white-space: pre;
+  line-height: 1.2;
+  color: #00ff00;
+  margin: 0;
+}
+
+/* Color styles */
+.info-text {
+  color: #00ccff; /* Light blue */
+}
+
+.error-text {
+  color: #ff3333; /* Red */
+}
+
+.welcome-text {
+  color: #ffcc00; /* Yellow */
+}
+
+.command-text {
+  color: #00ff99; /* Mint green */
+}
+
+.question-text {
+  color: #cc99ff; /* Purple */
+}
+
+.warning-text {
+  color: #ff9900; /* Orange */
+}
+
+.section-header {
+  color: #ffff66; /* Bright yellow */
+  font-weight: bold;
+}
+
+/* Link styles */
+.project-link, .contact-link {
+  color: #00ff00;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
