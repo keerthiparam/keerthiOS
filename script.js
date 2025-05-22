@@ -51,8 +51,8 @@ const commands = {
 
 <div>[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link">PhishMate : AI-powered phishing detection browser extension</a></div>
 <div>[+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link">TalentDAO : Web3 freelancer platform with decentralized reputation</a></div>
-<div>[+] <a href="https://github.com/keerthiparam/DustBuster" target="_blank" class="project-link">DustBuster : Arduino-based automation for cleaning tasks</a></div>
-<div>[+] <a href="https://github.com/keerthiparam/PasswordManager" target="_blank" class="project-link">PasswordManager : Python & MySQL application for secure password management</a></div>
+<div>[+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link">DustBuster : Arduino-based automation for cleaning tasks</a></div>
+<div>[+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link">PasswordManager : Python & MySQL application for secure password management</a></div>
 `,
 
   contact: `
