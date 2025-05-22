@@ -144,3 +144,25 @@ body {
   padding: 2px 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 2px #00ff00,
+      0 0 5px #00cc00,
+      0 0 10px #009900;
+  }
+  20%, 24%, 55% {
+    text-shadow:
+      0 0 1px #007700,
+      0 0 2px #004400;
+  }
+}
+
+.permanent-flicker {
+  font-family: monospace;
+  white-space: pre;
+  color: #00ff00;
+  animation: flicker 3s linear infinite;
+  opacity: 1;
+}

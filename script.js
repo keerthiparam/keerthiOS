@@ -76,7 +76,7 @@ const commands = {
     output.innerHTML = '';
   },
 
-  banner: `<pre class="ascii-art">
+  banner: `<pre class="ascii-art permanent-flicker">
  _                  _   _     _  ____   _____ 
 | |                | | | |   (_)/ __ \\ / ____|
 | | _____  ___ _ __| |_| |__  _| |  | | (___  
@@ -85,21 +85,22 @@ const commands = {
 |_|\\_\\___|\\___|_|   \\__|_| |_|_|\\____/|_____/ 
 </pre>`,
 
-  greet: `== [~] Welcome to keerthiOS! ==
+  greet: `<pre class="ascii-art permanent-flicker">
+> run ./KeerthiOS --boot
 
-[::] User      : Keerthi
-[::] Location  : Chennai, IN
-[::] Mission   : Build. Secure. Automate.
-[::] Uptime    : Long enough to brew ideas ☕
+[boot] Loading identity kernel...
+[sys] Parsing mind.modules... OK
+[env] Spawning terminal... READY
+[KeerthiOS] :: system online.
 
-CSE | Cybersecurity | AI
-Type <span class="clickable" data-cmd="help">'help'</span> to see what you can break.
-`
+[~] Type <span class="clickable" data-cmd="help">'help'</span> to see what you can break.
+</pre>`
 };
 
 const easterEggs = {
   "sudo make me a sandwich": "[::] Okay. You're the boss. 🥪",
   "rm -rf /": "[!] Error: This is not *that* kind of terminal.",
+  "hi": "[::] Hi! I'm Keerthi's terminal assistant.",
   "hello": "[::] Hi! I'm Keerthi's terminal assistant.",
   "why": "[::] Why not?",
   "banner": "🎉 Welcome to keerthiOS Terminal 🎉",
@@ -109,9 +110,9 @@ const easterEggs = {
   "cowsay hello": '🐮 "Hello!"',
   "sudo hug": "[::] Permission granted. 🤗 Virtual hug sent!",
   "exit": "[::] Nice try. This terminal is forever.",
+  "quit": "[::] Nice try. This terminal is forever.",
   "inspire": "[::] Push yourself, because no one else is going to do it for you.",
   "motto": "[::] Code. Debug. Repeat. 💻",
-  "clear": "[::] Nah, let the mess inspire you.",
   "neofetch": "[::] keerthiOS 1.0 | Uptime: All-nighter | Mood: 💪",
   "bye": "Bye."
 };
@@ -148,11 +149,10 @@ function colorizeOutput(text) {
   return text
     .replace(/\[::]/g, '<span class="info-text">[::] </span>')
     .replace(/\[!!]/g, '<span class="error-text">[!!] </span>')
-    .replace(/\[!!]/g, '<span class="error-text">[!!] </span>')
     .replace(/\[~]/g, '<span class="welcome-text">[~] </span>')
     .replace(/\[\+]/g, '<span class="command-text">[+] </span>')
-    .replace(/\[\?]/g, '<span class="question-text">[?] </span>')
     .replace(/\[\?\?]/g, '<span class="warning-text">[??] </span>')
+    .replace(/\[\?]/g, '<span class="question-text">[?] </span>')
     .replace(/==\s\[.\]\s.*\s==/, match => `<span class="section-header">${match}</span>`);
 }
 
@@ -365,3 +365,13 @@ window.onload = () => {
   initializeTerminal();
   commandInput.focus();
 };
+
+const banner = document.querySelector('.flicker-effect');
+
+// Add flicker class initially
+banner.classList.add('flicker-effect');
+
+// Remove flicker effect after 3 seconds (duration of animation)
+setTimeout(() => {
+  banner.classList.remove('flicker-effect');
+}, 3000);
