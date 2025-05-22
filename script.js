@@ -305,17 +305,20 @@ commandInput.addEventListener("keydown", function(e) {
   }
 
   if (e.key === "Tab") {
-    e.preventDefault();
-    const input = commandInput.value.trim();
-    const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
+  e.preventDefault();
+  const input = commandInput.value.trim();
 
-    if (matches.length === 1) {
-      commandInput.value = matches[0];
-    } else if (matches.length > 1) {
-      appendOutput(`$ ${escapeHTML(input)}`, true);
-      typeOutput(matches.join("\n"));
-    }
+  if (!input) return; // <-- Ignore if nothing typed
+
+  const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
+
+  if (matches.length === 1) {
+    commandInput.value = matches[0];
+  } else if (matches.length > 1) {
+    appendOutput(`$ ${escapeHTML(input)}`, true);
+    typeOutput(matches.join("\n"));
   }
+}
 
   if (e.key === "ArrowUp") {
     if (historyIndex > 0) {
