@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Courier New', monospace;
-  background-color: #1e1e1e;
+  background-color: #0d0d0d;
   color: #00ff00;
   padding: 20px;
   font-size: 16px;
@@ -64,12 +64,12 @@ a {
 ::-webkit-scrollbar-thumb {
   background-color: #00ff00; /* Neon green thumb */
   border-radius: 10px;
-  border: 2px solid #1e1e1e; /* Matches background */
+  border: 2px solid #0d0d0d; /* Matches background */
 }
 
 /* Firefox (limited support) */
 body {
-  scrollbar-color: #00ff00 #1e1e1e;
+  scrollbar-color: #00ff00 #0d0d0d;
   scrollbar-width: thin;
 }
 
