@@ -353,5 +353,16 @@ async function bootAnimation() {
 
 window.onload = () => {
   commandInput.disabled = true;
-  bootAnimation();
+
+  const bootAlreadyShown = sessionStorage.getItem("bootShown");
+
+  if (!bootAlreadyShown) {
+    sessionStorage.setItem("bootShown", "true");
+    bootAnimation(); // run boot once per session
+  } else {
+    isBooting = false;
+    initializeTerminal(); // skip boot, go straight to terminal
+    commandInput.disabled = false;
+    commandInput.focus();
+  }
 };
