@@ -31,22 +31,41 @@ const commands = {
   "bio location": `[::] Location      : Chennai`,
   "bio college": `[::] College       : R.M.D. Engineering College`,
 
-  skills: `== [+] SKILLS ==
+  skills: `
+== [+] SKILLS ==
 
-  [+] Languages :
-  - Python
-  - Java
-  - C++
-  - JavaScript
-
-  [+] Frameworks :
-  - Flask
-  - React
-  - Selenium
-
-  [+] Databases :
-  - MySQL
-  `,
+<table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding-right: 20px;">[+] Languages</th>
+      <th style="text-align: left; padding-right: 20px;">[+] Frameworks</th>
+      <th style="text-align: left;">[+] Databases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">- Python</td>
+      <td style="vertical-align: top;">- Flask</td>
+      <td style="vertical-align: top;">- MySQL</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- Java</td>
+      <td style="vertical-align: top;">- React</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- C++</td>
+      <td style="vertical-align: top;">- Selenium</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- JavaScript</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+`,
 
   projects: `
 == [+] PROJECTS ==
@@ -161,11 +180,12 @@ function processHelp(text) {
 
 function processBioCommands(text) {
   return text.split("\n").map(line => {
-    if (line.includes("[+]")) {
+    if (line.trim().startsWith("[+]")) {
       const cmd = line.split("[+]")[1].trim();
       return `  [+] ${makeClickable("bio " + cmd)}<br>`;
+    } else {
+      return escapeHTML(line) + "<br>";
     }
-    return escapeHTML(line) + "<br>";
   }).join("");
 }
 
