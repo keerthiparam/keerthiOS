@@ -1,7 +1,9 @@
 const output = document.getElementById("output");
 const commandInput = document.getElementById("command");
+const terminalOutput = document.getElementById("terminal-output");
 const commandHistory = [];
 let historyIndex = -1;
+let isBooting = true;
 
 const commands = {
   help: `Available commands:
@@ -86,13 +88,6 @@ const commands = {
 </pre>`,
 
   greet: `<pre class="ascii-art permanent-flicker">
-> run ./KeerthiOS --boot
-
-[boot] Loading identity kernel...
-[sys] Parsing mind.modules... OK
-[env] Spawning terminal... READY
-[KeerthiOS] :: system online.
-
 [~] Type <span class="clickable" data-cmd="help">'help'</span> to see what you can break.
 </pre>`
 };
@@ -117,34 +112,28 @@ const easterEggs = {
   "bye": "Bye."
 };
 
+const bootSequence = [
+  { whole: "> run ./KeerthiOS --boot" }, // whole line instantly
+  { prefix: "[boot]", main: " Loading identity kernel..." }, 
+  { prefix: "[sys]", main: " Parsing mind.modules...", status: " OK" },
+  { prefix: "[env]", main: " Spawning terminal...", status: " READY" },
+  { prefix: "[KeerthiOS]", main: " :: system online." },
+];
+
 function escapeHTML(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// Helper to safely add output and scroll to bottom
 function appendOutput(html, isHTML = false) {
-  if (isHTML) {
-    output.innerHTML += html + '<br>';
-  } else {
-    const escaped = escapeHTML(html);
-    output.innerHTML += escaped + '<br>';
-  }
-  
-  // More reliable scrolling - scroll the entire window
-  setTimeout(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, 0);
+  output.innerHTML += isHTML ? html + "<br>" : escapeHTML(html) + "<br>";
+  setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 0);
 }
 
 function makeClickable(cmdText) {
-  const cmdLower = cmdText.toLowerCase();
-  return `<span class="clickable" data-cmd="${escapeHTML(cmdLower)}">${escapeHTML(cmdText)}</span>`;
+  const cmd = cmdText.toLowerCase();
+  return `<span class="clickable" data-cmd="${escapeHTML(cmd)}">${escapeHTML(cmdText)}</span>`;
 }
 
-// Apply different colors to terminal output based on prefix
 function colorizeOutput(text) {
   return text
     .replace(/\[::]/g, '<span class="info-text">[::] </span>')
@@ -156,128 +145,55 @@ function colorizeOutput(text) {
     .replace(/==\s\[.\]\s.*\s==/, match => `<span class="section-header">${match}</span>`);
 }
 
-function processHelp(helpText) {
-  const lines = helpText.split('\n');
-  let processedHTML = '';
-  
-  for (const line of lines) {
-    if (line.trim().startsWith('[+]')) {
-      // Match the command name that comes after [+]
-      const parts = line.trim().split('[+]');
-      if (parts.length > 1) {
-        const cmdName = parts[1].trim();
-        processedHTML += `  [+] ${makeClickable(cmdName)}<br>`;
-      } else {
-        processedHTML += escapeHTML(line) + '<br>';
-      }
-    } else if (line.trim().startsWith('[-]')) {
-      // For clickable commands like clear
-      const parts = line.trim().split('[-]');
-      if (parts.length > 1) {
-        const cmdName = parts[1].trim();
-        processedHTML += `  [-] ${makeClickable(cmdName)}<br>`;
-      } else {
-        processedHTML += escapeHTML(line) + '<br>';
-      }
-    } else {
-      processedHTML += escapeHTML(line) + '<br>';
+function processHelp(text) {
+  return text.split("\n").map(line => {
+    if (line.includes("[+]")) {
+      const cmd = line.split("[+]")[1].trim();
+      return `  [+] ${makeClickable(cmd)}<br>`;
     }
-  }
-  
-  return processedHTML;
+    if (line.includes("[-]")) {
+      const cmd = line.split("[-]")[1].trim();
+      return `  [-] ${makeClickable(cmd)}<br>`;
+    }
+    return escapeHTML(line) + "<br>";
+  }).join("");
 }
 
-function processBioCommands(bioText) {
-  const lines = bioText.split('\n');
-  let processedHTML = '';
-  
-  for (const line of lines) {
-    if (line.trim().startsWith('[+]')) {
-      // Match the command name that comes after [+]
-      const parts = line.trim().split('[+]');
-      if (parts.length > 1) {
-        const cmdName = parts[1].trim();
-        processedHTML += `  [+] ${makeClickable('bio ' + cmdName)}<br>`;
-      } else {
-        processedHTML += escapeHTML(line) + '<br>';
-      }
-    } else {
-      processedHTML += escapeHTML(line) + '<br>';
+function processBioCommands(text) {
+  return text.split("\n").map(line => {
+    if (line.includes("[+]")) {
+      const cmd = line.split("[+]")[1].trim();
+      return `  [+] ${makeClickable("bio " + cmd)}<br>`;
     }
-  }
-  
-  return processedHTML;
+    return escapeHTML(line) + "<br>";
+  }).join("");
 }
 
 function typeOutput(text, command = '') {
-  // If the output contains HTML tags (like projects/contact), just insert HTML directly
-  const isHTML = /<\/?[a-z][\s\S]*>/i.test(text.trim());
-
-  if (isHTML) {
-    // Insert as HTML directly
-    appendOutput(text.trim(), true);
-    return;
-  }
-
-  // Special processing for help command
-  if (command === 'help') {
-    appendOutput(processHelp(text), true);
-    return;
-  }
-  
-  // Special processing for bio command
-  if (command === 'bio') {
-    appendOutput(processBioCommands(text), true);
-    return;
-  }
-
-  // Apply colorization to other text
-  let colorized = colorizeOutput(text);
-  appendOutput(colorized, true);
+  if (/<\/?[a-z]/i.test(text)) return appendOutput(text, true);
+  if (command === 'help') return appendOutput(processHelp(text), true);
+  if (command === 'bio') return appendOutput(processBioCommands(text), true);
+  appendOutput(colorizeOutput(text), true);
 }
 
-function initializeTerminal() {
-  appendOutput(commands.banner.trim(), true);
-  appendOutput(commands.greet.trim(), true);
-  
-  // Set focus to input and ensure scroll position
-  setTimeout(() => {
-    commandInput.focus();
-    window.scrollTo(0, document.body.scrollHeight);
-  }, 100);
-}
-
-function handleCommand(input) {
-  // Limit max length to prevent abuse
-  if (input.length > 100) {
-    return "[!!] Command too long. Please enter a shorter command.";
-  }
-
-  const command = input.trim().toLowerCase();
-
-  if (commands.hasOwnProperty(command)) {
-    if (typeof commands[command] === 'function') {
-      if (command === 'clear') {
-        commands.clear();
-        return ''; // no further output after clear
-      }
-      return commands[command]();
-    } else {
-      return commands[command];
+function handleCommand(cmd) {
+  if (cmd.length > 100) return "[!!] Command too long.";
+  if (commands[cmd]) {
+    if (typeof commands[cmd] === "function") {
+      if (cmd === "clear") return commands.clear(), "";
+      return commands[cmd]();
     }
-  } else if (easterEggs.hasOwnProperty(command)) {
-    return easterEggs[command];
-  } else {
-    return `[??] Command not found: ${escapeHTML(command)}`;
+    return commands[cmd];
   }
+  if (easterEggs[cmd]) return easterEggs[cmd];
+  return `[??] Command not found: ${escapeHTML(cmd)}`;
 }
 
-commandInput.addEventListener("keydown", function(e) {
-  const rawInput = commandInput.value;
-  const cmd = rawInput.trim().toLowerCase().replace(/\s+/g, ' ');
+commandInput.addEventListener("keydown", (e) => {
+  const raw = commandInput.value;
+  const cmd = raw.trim().toLowerCase().replace(/\s+/g, ' ');
 
-  // Limit input length at typing time to avoid long pastes
-  if (rawInput.length > 150) {
+  if (raw.length > 150) {
     e.preventDefault();
     return;
   }
@@ -285,40 +201,31 @@ commandInput.addEventListener("keydown", function(e) {
   if (e.key === "Enter") {
     if (!cmd) return;
 
-    // Echo the typed command
-    appendOutput(`$ ${escapeHTML(cmd)}`, true);
+    if (!isBooting) {
+      appendOutput(`$ ${escapeHTML(cmd)}`, true);  // only show $ prompt if not booting
+    } else {
+      appendOutput(escapeHTML(cmd), true);  // optionally show command without $
+    }
 
-    // Save command to history
     commandHistory.push(cmd);
     historyIndex = commandHistory.length;
-
-    // Handle command and print output
     const response = handleCommand(cmd);
     if (response) typeOutput(response, cmd);
-
     commandInput.value = "";
-    
-    // Extra scrolling for typed commands
-    setTimeout(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-    }, 10);
+    setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 10);
   }
 
   if (e.key === "Tab") {
-  e.preventDefault();
-  const input = commandInput.value.trim();
-
-  if (!input) return; // <-- Ignore if nothing typed
-
-  const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
-
-  if (matches.length === 1) {
-    commandInput.value = matches[0];
-  } else if (matches.length > 1) {
-    appendOutput(`$ ${escapeHTML(input)}`, true);
-    typeOutput(matches.join("\n"));
+    e.preventDefault();
+    const input = commandInput.value.trim();
+    if (!input) return;
+    const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
+    if (matches.length === 1) commandInput.value = matches[0];
+    else if (matches.length > 1) {
+      appendOutput(`$ ${escapeHTML(input)}`, true);
+      typeOutput(matches.join("\n"));
+    }
   }
-}
 
   if (e.key === "ArrowUp") {
     if (historyIndex > 0) {
@@ -340,41 +247,91 @@ commandInput.addEventListener("keydown", function(e) {
   }
 });
 
-// Event delegation for clickable elements
-output.addEventListener("click", function(e) {
+output.addEventListener("click", (e) => {
   if (e.target.classList.contains("clickable")) {
     const cmd = e.target.getAttribute("data-cmd");
     if (cmd) {
-      // Echo the command as if it was typed
       appendOutput(`$ ${escapeHTML(cmd)}`, true);
-      
-      // Execute the command
       const response = handleCommand(cmd);
       if (response) typeOutput(response, cmd);
-      
-      // Focus the input field for the next command
       commandInput.value = "";
       commandInput.focus();
-      
-      // Ensure scroll to bottom
-      setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 10);
+      setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 10);
     }
   }
 });
 
-window.onload = () => {
-  initializeTerminal();
+function initializeTerminal() {
+  appendOutput(commands.banner.trim(), true);
+  appendOutput(commands.greet.trim(), true);
+  setTimeout(() => {
+    commandInput.focus();
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 100);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function typeLine(lineObj, delay = 2000) {
+  // Create a container div for the line
+  output.innerHTML += "<div class='boot-line'></div>";
+  const lines = output.querySelectorAll(".boot-line");
+  const currentLine = lines[lines.length - 1]; // last added line
+
+  // If whole line given, print instantly and add one <br>
+  if (lineObj.whole) {
+    currentLine.innerHTML = escapeHTML(lineObj.whole);
+    window.scrollTo(0, document.body.scrollHeight);
+    return;
+  }
+
+  // Print prefix (if any), wait
+  if (lineObj.prefix) {
+    currentLine.innerHTML = `<span class="prefix">${escapeHTML(lineObj.prefix)}</span>`;
+    window.scrollTo(0, document.body.scrollHeight);
+    await sleep(delay);
+  }
+
+  // Append main text (if any), wait
+  if (lineObj.main) {
+    currentLine.innerHTML += escapeHTML(lineObj.main);
+    window.scrollTo(0, document.body.scrollHeight);
+    await sleep(delay);
+  }
+
+  // Append status (if any)
+  if (lineObj.status) {
+    currentLine.innerHTML += `<span class="status">${escapeHTML(lineObj.status)}</span>`;
+  }
+
+  // Finally add one <br> after the whole line is done
+  window.scrollTo(0, document.body.scrollHeight);
+  await sleep(delay);
+}
+
+async function bootAnimation() {
+  output.innerHTML = ""; // clear first
+  isBooting = true;
+
+  for (const line of bootSequence) {
+    await typeLine(line, 150); // 1.5 seconds delay between parts
+    await sleep(400);           // extra wait between lines
+  }
+
+  await sleep(100);
+  output.innerHTML = ""; // clear output after boot
+
+  appendOutput(commands.banner.trim(), true);
+  appendOutput(commands.greet.trim(), true);
+
+  isBooting = false;
+  commandInput.disabled = false;
   commandInput.focus();
+}
+
+window.onload = () => {
+  commandInput.disabled = true;
+  bootAnimation();
 };
-
-const banner = document.querySelector('.flicker-effect');
-
-// Add flicker class initially
-banner.classList.add('flicker-effect');
-
-// Remove flicker effect after 3 seconds (duration of animation)
-setTimeout(() => {
-  banner.classList.remove('flicker-effect');
-}, 3000);

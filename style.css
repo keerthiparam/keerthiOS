@@ -166,3 +166,16 @@ body {
   animation: flicker 3s linear infinite;
   opacity: 1;
 }
+
+.boot-line {
+  white-space: pre; /* preserve spaces */
+}
+.prefix {
+  color: #66d9ef; /* cyan for prefix */
+  font-weight: bold;
+}
+.status {
+  color: #a6e22e; /* green for status */
+  font-weight: bold;
+  margin-left: 5px;
+}
