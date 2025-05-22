@@ -94,8 +94,10 @@ const commands = {
   `,
 
   clear: () => {
-    output.innerHTML = '';
-  },
+  output.innerHTML = '';
+  appendOutput(commands.banner.trim(), true);
+  appendOutput(commands.greet.trim(), true);
+},
 
   banner: `<pre class="ascii-art permanent-flicker">
  _                  _   _     _  ____   _____ 
