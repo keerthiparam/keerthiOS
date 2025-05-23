@@ -60,7 +60,7 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e1e1e; /* Dark track */
+  background: #0d0d0d; /* Dark track */
 }
 
 ::-webkit-scrollbar-thumb {
