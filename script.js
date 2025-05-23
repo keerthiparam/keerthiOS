@@ -109,7 +109,7 @@ const commands = {
 </pre>`,
 
   greet: `<pre class="ascii-art permanent-flicker">
-[~] Type <span class="clickable" data-cmd="help">'help'</span> to see what you can break.
+[~] Type or click <span class="clickable" data-cmd="help"><b>'help'</b></span> to see what you can break.
 </pre>`
 };
 
