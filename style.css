@@ -10,6 +10,8 @@ body {
   margin: auto;
   /* Only show scrollbar when needed */
   overflow-y: auto;
+  scrollbar-color: #00ff00 #0d0d0d;
+  scrollbar-width: thin;
 }
 
 .output {
@@ -67,12 +69,6 @@ a {
   border: 2px solid #0d0d0d; /* Matches background */
 }
 
-/* Firefox (limited support) */
-body {
-  scrollbar-color: #00ff00 #0d0d0d;
-  scrollbar-width: thin;
-}
-
 .clickable {
   cursor: pointer;
   padding: 2px 6px;
@@ -108,32 +104,42 @@ body {
 
 /* Color styles */
 .info-text {
-  color: #00ccff; /* Light blue */
+  color: #87ff65;
+  font-weight: bold;
 }
 
 .error-text {
-  color: #ff3333; /* Red */
+  color: #ff4b4b;
+  font-weight: bold;
 }
 
 .welcome-text {
-  color: #ffcc00; /* Yellow */
+  color: #ffa500;
+  font-weight: bold;
 }
 
 .command-text {
-  color: #00ff99; /* Mint green */
+  color: #00f5ff;
+  font-weight: bold;
 }
 
 .question-text {
-  color: #cc99ff; /* Purple */
+  color: #bdbdfc;
+  font-weight: bold;
 }
 
 .warning-text {
-  color: #ff9900; /* Orange */
+  color: #ffff66;
+  font-weight: bold;
 }
 
 .section-header {
-  color: #ffff66; /* Bright yellow */
   font-weight: bold;
+  font-family: monospace;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  display: block;
+  color: #00f5ff;
 }
 
 /* Link styles */
@@ -178,4 +184,17 @@ body {
   color: #a6e22e; /* green for status */
   font-weight: bold;
   margin-left: 5px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-weight: bold;
+  color: #00ff00; /* Terminal green */
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre; /* To preserve spacing */
 }

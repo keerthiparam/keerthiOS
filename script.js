@@ -16,25 +16,21 @@ const commands = {
   [-] clear
   `,
 
-  bio: `== [+] BIO ==
-
-  [+] degree
-  [+] specialization
-  [+] honors
-  [+] location
-  [+] college
+  bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="degree">degree</span>
+  [+] <span class="clickable" data-cmd="specialization">specialization</span>
+  [+] <span class="clickable" data-cmd="honors">honors</span>
+  [+] <span class="clickable" data-cmd="location">location</span>
+  [+] <span class="clickable" data-cmd="college">college</span>
   `,
 
-  "bio degree": `[::] Degree        : B.E. Computer Science and Engineering`,
-  "bio specialization": `[::] Specialization: Cybersecurity`,
-  "bio honors": `[::] Honors        : Artificial Intelligence`,
-  "bio location": `[::] Location      : Chennai`,
-  "bio college": `[::] College       : R.M.D. Engineering College`,
+degree: `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering`,
+specialization: `[::] <strong>Specialization</strong> : Cybersecurity`,
+honors: `[::] <strong>Honors</strong>         : Artificial Intelligence`,
+location: `[::] <strong>Location</strong>       : Chennai`,
+college: `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
   skills: `
-== [+] SKILLS ==
-
-<table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
+<div class="section-title">== [+] SKILLS ==</div><table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
   <thead>
     <tr>
       <th style="text-align: left; padding-right: 20px;">[+] Languages</th>
@@ -67,31 +63,29 @@ const commands = {
 </table>
 `,
 
-  projects: `
-== [+] PROJECTS ==
-
-<div>[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link">PhishMate : AI-powered phishing detection browser extension</a></div>
-<div>[+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link">TalentDAO : Web3 freelancer platform with decentralized reputation</a></div>
-<div>[+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link">DustBuster : Arduino-based automation for cleaning tasks</a></div>
-<div>[+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link">PasswordManager : Python & MySQL application for secure password management</a></div>
+projects: `
+<div class="section-title">== [+] PROJECTS ==</div>
+[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension<
+[+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
+[+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
+[+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link"><strong>PasswordManager</strong></a> : Python & MySQL app for secure password management
 `,
 
-  contact: `
-== [+] CONTACT ==
-
-<div>[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link">Email : parami.keerthi@gmail.com</a></div>
-<div>[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link">GitHub : github.com/keerthiparam</a></div>
-<div>[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link">LinkedIn : linkedin.com/in/keerthiparam</a></div>
-<div>[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link">Discord : discord.com/users/1154052200260194425</a></div>
+contact: `
+<div class="section-title">== [+] CONTACT ==</div>
+[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>    : parami.keerthi@gmail.com
+[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>   : github.com/keerthiparam
+[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a> : linkedin.com/in/keerthiparam
+[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>  : discord.com/users/1154052200260194425
 `,
 
-  hobbies: `== [+] HOBBIES ==
-
-  [+] Gaming      : Genshin Impact, Minecraft
-  [+] Editing     : Short videos and content creation
-  [+] Volunteering: Campus & community events
-  [+] Design      : Minimalist aesthetics and layouts
-  `,
+hobbies: `
+<div class="section-title">== [+] SKILLS ==</div>
+[+] <strong>Gaming</strong>       : Genshin Impact, Minecraft
+[+] <strong>Editing</strong>      : Short videos and content creation
+[+] <strong>Volunteering</strong> : Campus & community events
+[+] <strong>Design</strong>       : Minimalist aesthetics and layouts
+`,
 
   clear: () => {
   output.innerHTML = '';
@@ -163,7 +157,7 @@ function colorizeOutput(text) {
     .replace(/\[\+]/g, '<span class="command-text">[+] </span>')
     .replace(/\[\?\?]/g, '<span class="warning-text">[??] </span>')
     .replace(/\[\?]/g, '<span class="question-text">[?] </span>')
-    .replace(/==\s\[.\]\s.*\s==/, match => `<span class="section-header">${match}</span>`);
+    .replace(/==\s*\[(.+?)\]\s*(.*?)\s*==/g, (_, symbol, title) => `<div class="section-header">== [${symbol}] <b>${title}</b> ==</div>`);
 }
 
 function processHelp(text) {
