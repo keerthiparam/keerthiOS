@@ -65,7 +65,7 @@ college: `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
 projects: `
 <div class="section-title">== [+] PROJECTS ==</div>
-[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension<
+[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension
 [+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
 [+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
 [+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link"><strong>PasswordManager</strong></a> : Python & MySQL app for secure password management
@@ -104,7 +104,12 @@ hobbies: `
 
   greet: `<pre class="ascii-art permanent-flicker">
 [~] Type or click<b class="clickable" data-cmd="help">'help'</b>to see what you can break.
-</pre>`
+</pre>`,
+
+ search: function(args) {
+    if (!args) return "[::] Please provide a search term.";
+    return searchProfile(args);
+  },
 };
 
 const easterEggs = {
@@ -192,17 +197,26 @@ function typeOutput(text, command = '') {
   appendOutput(colorizeOutput(text), true);
 }
 
-function handleCommand(cmd) {
-  if (cmd.length > 100) return "[!!] Command too long.";
-  if (commands[cmd]) {
-    if (typeof commands[cmd] === "function") {
-      if (cmd === "clear") return commands.clear(), "";
-      return commands[cmd]();
+function handleCommand(input) {
+  if (input.length > 100) return "[!!] Command too long.";
+
+  const [cmd, ...args] = input.trim().split(" ");
+  const command = commands[cmd];
+
+  if (command) {
+    if (typeof command === "function") {
+      if (cmd === "clear") {
+        commands.clear();
+        return "";
+      }
+      return command(args.join(" ")); // Pass joined args
     }
-    return commands[cmd];
+    return command;
   }
-  if (easterEggs[cmd]) return easterEggs[cmd];
-  return `[??] Command not found: ${escapeHTML(cmd)}`;
+
+  if (easterEggs[input]) return easterEggs[input];
+
+  return `[??] Command not found: ${escapeHTML(input)}`;
 }
 
 commandInput.addEventListener("keydown", (e) => {
@@ -362,3 +376,50 @@ window.onload = () => {
     commandInput.focus();
   }
 };
+
+function searchProfile(term) {
+  const results = [];
+  const searchTerm = term.toLowerCase();
+  const sectionHits = {};
+
+  // Highlight match
+  const highlight = (line, term) =>
+    line.replace(new RegExp(`(${term})`, 'ig'), '<mark>$1</mark>');
+
+  // Extract visible text from project anchor tags
+  function extractVisibleText(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+
+    // Replace each <a> with its <strong> text content in brackets
+    div.querySelectorAll('a').forEach(a => {
+      const label = a.querySelector('strong')?.textContent || a.textContent || '';
+      a.replaceWith(`[${label}]`);
+    });
+
+    // Return the text content trimmed
+    return div.textContent.trim();
+  }
+
+  for (const section in commands) {
+    const command = commands[section];
+    if (typeof command === 'function') continue;
+
+    const textContent = extractVisibleText(command);
+
+    textContent.split('\n').forEach(line => {
+      if (line.toLowerCase().includes(searchTerm)) {
+        if (!sectionHits[section]) sectionHits[section] = [];
+        sectionHits[section].push('   ' + highlight(line.trim(), searchTerm));
+      }
+    });
+  }
+
+  for (const section in sectionHits) {
+    results.push(`[::] Found in ${section}:\n` + sectionHits[section].join('\n'));
+  }
+
+  return results.length > 0
+    ? results.join('\n\n')
+    : `[::] No results found for "<mark>${term}</mark>"`;
+}
