@@ -16,18 +16,18 @@ const commands = {
   [-] clear
   `,
 
-  bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="degree">degree</span>
-  [+] <span class="clickable" data-cmd="specialization">specialization</span>
-  [+] <span class="clickable" data-cmd="honors">honors</span>
-  [+] <span class="clickable" data-cmd="location">location</span>
-  [+] <span class="clickable" data-cmd="college">college</span>
+  bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="bio degree">degree</span>
+  [+] <span class="clickable" data-cmd="bio specialization">specialization</span>
+  [+] <span class="clickable" data-cmd="bio honors">honors</span>
+  [+] <span class="clickable" data-cmd="bio location">location</span>
+  [+] <span class="clickable" data-cmd="bio college">college</span>
   `,
 
-degree: `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering`,
-specialization: `[::] <strong>Specialization</strong> : Cybersecurity`,
-honors: `[::] <strong>Honors</strong>         : Artificial Intelligence`,
-location: `[::] <strong>Location</strong>       : Chennai`,
-college: `[::] <strong>College</strong>        : R.M.D. Engineering College`,
+"bio degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering`,
+"bio specialization": `[::] <strong>Specialization</strong> : Cybersecurity`,
+"bio honors": `[::] <strong>Honors</strong>         : Artificial Intelligence`,
+"bio location": `[::] <strong>Location</strong>       : Chennai`,
+"bio college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
   skills: `
 <div class="section-title">== [+] SKILLS ==</div><table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
@@ -36,6 +36,7 @@ college: `[::] <strong>College</strong>        : R.M.D. Engineering College`,
       <th style="text-align: left; padding-right: 20px;">[+] Languages</th>
       <th style="text-align: left; padding-right: 20px;">[+] Frameworks</th>
       <th style="text-align: left;">[+] Databases</th>
+      <th style="text-align: left;">[+] Tools</th>
     </tr>
   </thead>
   <tbody>
@@ -43,19 +44,41 @@ college: `[::] <strong>College</strong>        : R.M.D. Engineering College`,
       <td style="vertical-align: top;">- Python</td>
       <td style="vertical-align: top;">- Flask</td>
       <td style="vertical-align: top;">- MySQL</td>
+      <td style="vertical-align: top;">- Github</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">- Java</td>
       <td style="vertical-align: top;">- React</td>
       <td></td>
+      <td style="vertical-align: top;">- Linux</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">- C++</td>
       <td style="vertical-align: top;">- Selenium</td>
       <td></td>
+      <td style="vertical-align: top;">- VS Code</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- C</td>
+      <td></td>
+      <td></td>
+      <td style="vertical-align: top;">- Wireshark</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- HTML</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">- CSS</td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">- JavaScript</td>
+      <td></td>
       <td></td>
       <td></td>
     </tr>
@@ -80,7 +103,7 @@ contact: `
 `,
 
 hobbies: `
-<div class="section-title">== [+] SKILLS ==</div>
+<div class="section-title">== [+] HOBBIES ==</div>
 [+] <strong>Gaming</strong>       : Genshin Impact, Minecraft
 [+] <strong>Editing</strong>      : Short videos and content creation
 [+] <strong>Volunteering</strong> : Campus & community events
@@ -100,6 +123,7 @@ hobbies: `
 | |/ / _ \\/ _ \\ '__| __| '_ \\| | |  | |\\___ \\ 
 |   <  __/  __/ |  | |_| | | | | |__| |____) |
 |_|\\_\\___|\\___|_|   \\__|_| |_|_|\\____/|_____/ 
+
 </pre>`,
 
   greet: `<pre class="ascii-art permanent-flicker">
@@ -145,7 +169,11 @@ function escapeHTML(str) {
 }
 
 function appendOutput(html, isHTML = false) {
-  output.innerHTML += isHTML ? html + "<br>" : escapeHTML(html) + "<br>";
+   const div = document.createElement('div');
+  if (isHTML) div.innerHTML = html;
+  else div.textContent = html;
+  output.appendChild(div);
+  window.scrollTo(0, document.body.scrollHeight);
   setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 0);
 }
 
@@ -200,16 +228,26 @@ function typeOutput(text, command = '') {
 function handleCommand(input) {
   if (input.length > 100) return "[!!] Command too long.";
 
-  const [cmd, ...args] = input.trim().split(" ");
-  const command = commands[cmd];
+  const cmd = input.trim().toLowerCase();
 
-  if (command) {
+  if (commands[cmd]) {
+    const command = commands[cmd];
     if (typeof command === "function") {
       if (cmd === "clear") {
         commands.clear();
         return "";
       }
-      return command(args.join(" ")); // Pass joined args
+      return command('');
+    }
+    return command;
+  }
+
+  // Otherwise fallback to first word command + args logic:
+  const [firstCmd, ...args] = input.trim().split(" ");
+  if (commands[firstCmd]) {
+    const command = commands[firstCmd];
+    if (typeof command === "function") {
+      return command(args.join(" "));
     }
     return command;
   }
@@ -250,10 +288,16 @@ commandInput.addEventListener("keydown", (e) => {
     const input = commandInput.value.trim();
     if (!input) return;
     const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
-    if (matches.length === 1) commandInput.value = matches[0];
-    else if (matches.length > 1) {
+    if (matches.length === 1) {
+      commandInput.value = "matches[0]";  // replace fully
+    } else if (matches.length > 1) {
       appendOutput(`$ ${escapeHTML(input)}`, true);
-      typeOutput(matches.join("\n"));
+      // Convert each match to a clickable span
+      const clickableMatchesHTML = matches.map(cmd => 
+      `<span class="clickable" data-cmd="${escapeHTML(cmd)}">${escapeHTML(cmd)}</span>`
+      ).join('\n'); // add some spaces between
+
+      appendOutput(clickableMatchesHTML, true);
     }
   }
 
@@ -362,7 +406,8 @@ async function bootAnimation() {
 }
 
 window.onload = () => {
-  commandInput.disabled = true;
+  commandInput.disabled = false;
+  commandInput.focus();
 
   const bootAlreadyShown = sessionStorage.getItem("bootShown");
 
