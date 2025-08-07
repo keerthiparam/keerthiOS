@@ -88,6 +88,7 @@ const commands = {
 
 projects: `
 <div class="section-title">== [+] PROJECTS ==</div>
+[+] <a href="https://github.com/keerthiparam/ParamStock" target="_blank" class="project-link"><strong>ParamStock</strong></a>      : Web App for real-time stock alerts (Under construction)
 [+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension
 [+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
 [+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
@@ -289,7 +290,7 @@ commandInput.addEventListener("keydown", (e) => {
     if (!input) return;
     const matches = Object.keys(commands).filter(c => c.startsWith(input) && c !== input);
     if (matches.length === 1) {
-      commandInput.value = "matches[0]";  // replace fully
+      commandInput.value = matches[0];  // replace fully
     } else if (matches.length > 1) {
       appendOutput(`$ ${escapeHTML(input)}`, true);
       // Convert each match to a clickable span
