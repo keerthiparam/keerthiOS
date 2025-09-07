@@ -1,6 +1,5 @@
 const output = document.getElementById("output");
 const commandInput = document.getElementById("command");
-const terminalOutput = document.getElementById("terminal-output");
 const commandHistory = [];
 let historyIndex = -1;
 let isBooting = true;
@@ -11,6 +10,7 @@ const commands = {
   [+] bio
   [+] skills
   [+] projects
+  [+] resume
   [+] contact
   [+] hobbies
   [-] clear
@@ -95,6 +95,11 @@ projects: `
 [+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link"><strong>PasswordManager</strong></a> : Python & MySQL app for secure password management
 `,
 
+resume: () => {
+    window.open('https://docs.google.com/document/d/1_8awqWlxdFw7RIELNcMUJ54haw1jOJGvTQTLFg4NBT8/export?format=pdf', '_blank');
+    return '[::] Fetching Keerthi_KP_Resume_2025.pdf';
+  },
+
 contact: `
 <div class="section-title">== [+] CONTACT ==</div>
 [+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>    : parami.keerthi@gmail.com
@@ -139,7 +144,7 @@ hobbies: `
 
 const easterEggs = {
   "sudo make me a sandwich": "[::] Okay. You're the boss. 🥪",
-  "rm -rf /": "[!] Error: This is not *that* kind of terminal.",
+  "rm -rf /": "[!] Error: This is not <i>that</i> kind of terminal.",
   "hi": "[::] Hi! I'm Keerthi's terminal assistant.",
   "hello": "[::] Hi! I'm Keerthi's terminal assistant.",
   "why": "[::] Why not?",
@@ -180,7 +185,7 @@ function appendOutput(html, isHTML = false) {
 
 function makeClickable(cmdText) {
   const cmd = cmdText.toLowerCase();
-  return `<span class="clickable" data-cmd="${escapeHTML(cmd)}">${escapeHTML(cmdText)}</span>`;
+  return `<span class="clickable" data-cmd="${escapeHTML(cmd)}" role="button" tabindex="0">${escapeHTML(cmdText)}</span>`;
 }
 
 function colorizeOutput(text) {
