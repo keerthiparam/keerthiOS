@@ -88,11 +88,11 @@ const commands = {
 
 projects: `
 <div class="section-title">== [+] PROJECTS ==</div>
-[+] <a href="https://github.com/keerthiparam/ParamStock" target="_blank" class="project-link"><strong>ParamStock</strong></a>      : Web App for real-time stock alerts (Under construction)
-[+] <a href="https://github.com/keerthiparam/PhishMate" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension
-[+] <a href="https://github.com/keerthiparam/TalentDAO" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
-[+] <a href="https://github.com/keerthiparam/Dust-Buster" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
-[+] <a href="https://github.com/keerthiparam/Password-Manager" target="_blank" class="project-link"><strong>PasswordManager</strong></a> : Python & MySQL app for secure password management
+[+] <a href="https://github.com/keerthiparam/ParamStock/blob/main/README.md" target="_blank" class="project-link"><strong>ParamStock</strong></a>      : Web App for real-time stock alerts (In Progress)
+[+] <a href="https://github.com/keerthiparam/PhishMate/blob/main/README.md" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension
+[+] <a href="https://github.com/keerthiparam/TalentDAO/blob/main/README.md" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
+[+] <a href="https://github.com/keerthiparam/Dust-Buster/blob/main/README.md" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
+[+] <a href="https://github.com/keerthiparam/Password-Manager/blob/main/README.md" target="_blank" class="project-link"><strong>PasswordManager</strong></a> : Python & MySQL app for secure password management
 `,
 
 resume: () => {
