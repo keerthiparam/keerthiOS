@@ -13,6 +13,7 @@ const commands = {
   [+] resume
   [+] contact
   [+] hobbies
+  [+] source
   [-] clear
   `,
 
@@ -115,6 +116,8 @@ hobbies: `
 [+] <strong>Volunteering</strong> : Campus & community events
 [+] <strong>Design</strong>       : Minimalist aesthetics and layouts
 `,
+
+source: `[::] View the source code on <a href="https://github.com/keerthiparam/KeerthiOS" target="_blank" class="source-link"><strong><u>GitHub</u></strong></a>`,
 
   clear: () => {
   output.innerHTML = '';
