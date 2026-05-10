@@ -1,8 +1,11 @@
 const output = document.getElementById("output");
 const commandInput = document.getElementById("command");
-const commandHistory = [];
+const commandHistory =[];
 let historyIndex = -1;
 let isBooting = true;
+
+// Define prompt layout with colors
+const promptHTML = '<span class="prompt-user">guest@keerthiOS</span><span class="prompt-colon">:</span><span class="prompt-tilde">~</span><span class="prompt-dollar">$ </span>';
 
 const commands = {
   help: `Available commands:
@@ -17,14 +20,14 @@ const commands = {
   [-] clear
   `,
 
-  bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="bio degree">degree</span>
-  [+] <span class="clickable" data-cmd="bio location">location</span>
-  [+] <span class="clickable" data-cmd="bio college">college</span>
+  bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="degree">degree</span>
+  [+] <span class="clickable" data-cmd="location">location</span>
+  [+] <span class="clickable" data-cmd="college">college</span>
   `,
 
-"bio degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering with specialization in Cybersecurity and Honors in Artificial Intelligence`,
-"bio location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
-"bio college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
+"degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering with specialization in Cybersecurity and Honors in Artificial Intelligence`,
+"location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
+"college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
   skills: `
 <div class="section-title">== [+] SKILLS ==</div><table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
@@ -112,8 +115,7 @@ contact: `
 hobbies: `
 <div class="section-title">== [+] HOBBIES ==</div>
 [+] <strong>Gaming</strong>       : Genshin Impact, Minecraft
-[+] <strong>Editing</strong>      : Short videos and content creation
-[+] <strong>Volunteering</strong> : Campus & community events
+[+] <strong>Editing</strong>      : Short videos and content creation[+] <strong>Volunteering</strong> : Campus & community events
 [+] <strong>Design</strong>       : Minimalist aesthetics and layouts
 `,
 
@@ -136,7 +138,7 @@ source: `[::] View the source code on <a href="https://github.com/keerthiparam/K
 </pre>`,
 
   greet: `<pre class="ascii-art permanent-flicker">
-[~] Type or click<b class="clickable" data-cmd="help">'help'</b>to see what you can break.
+[~] Type or click <b class="clickable" data-cmd="help">'help'</b> to see what you can break.
 </pre>`,
 
  search: function(args) {
@@ -165,7 +167,7 @@ const easterEggs = {
   "bye": "Bye."
 };
 
-const bootSequence = [
+const bootSequence =[
   { whole: "> run ./KeerthiOS --boot" }, // whole line instantly
   { prefix: "[boot]", main: " Loading identity kernel..." }, 
   { prefix: "[sys]", main: " Parsing mind.modules...", status: " OK" },
@@ -199,7 +201,7 @@ function colorizeOutput(text) {
     .replace(/\[\+]/g, '<span class="command-text">[+] </span>')
     .replace(/\[\?\?]/g, '<span class="warning-text">[??] </span>')
     .replace(/\[\?]/g, '<span class="question-text">[?] </span>')
-    .replace(/==\s*\[(.+?)\]\s*(.*?)\s*==/g, (_, symbol, title) => `<div class="section-header">== [${symbol}] <b>${title}</b> ==</div>`);
+    .replace(/==\s*\[(.+?)\]\s*(.*?)\s*==/g, (_, symbol, title) => `<div class="section-header">==[${symbol}] <b>${title}</b> ==</div>`);
 }
 
 function processHelp(text) {
@@ -252,7 +254,7 @@ function handleCommand(input) {
   }
 
   // Otherwise fallback to first word command + args logic:
-  const [firstCmd, ...args] = input.trim().split(" ");
+  const[firstCmd, ...args] = input.trim().split(" ");
   if (commands[firstCmd]) {
     const command = commands[firstCmd];
     if (typeof command === "function") {
@@ -270,7 +272,7 @@ commandInput.addEventListener("keydown", (e) => {
   const raw = commandInput.value;
   const cmd = raw.trim().toLowerCase().replace(/\s+/g, ' ');
 
-  if (raw.length > 150) {
+  if (raw.length > 150 && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
     e.preventDefault();
     return;
   }
@@ -279,17 +281,18 @@ commandInput.addEventListener("keydown", (e) => {
     if (!cmd) return;
 
     if (!isBooting) {
-      appendOutput(`$ ${escapeHTML(cmd)}`, true);  // only show $ prompt if not booting
+      appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
     } else {
-      appendOutput(escapeHTML(cmd), true);  // optionally show command without $
+      appendOutput(`<span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
     }
 
-    commandHistory.push(cmd);
+    commandHistory.push(raw.trim()); // Save exact string the user typed for history
     historyIndex = commandHistory.length;
     const response = handleCommand(cmd);
     if (response) typeOutput(response, cmd);
     commandInput.value = "";
     setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 10);
+    return;
   }
 
   if (e.key === "Tab") {
@@ -300,7 +303,7 @@ commandInput.addEventListener("keydown", (e) => {
     if (matches.length === 1) {
       commandInput.value = matches[0];  // replace fully
     } else if (matches.length > 1) {
-      appendOutput(`$ ${escapeHTML(input)}`, true);
+      appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(input)}</span>`, true);
       // Convert each match to a clickable span
       const clickableMatchesHTML = matches.map(cmd => 
       `<span class="clickable" data-cmd="${escapeHTML(cmd)}">${escapeHTML(cmd)}</span>`
@@ -308,25 +311,31 @@ commandInput.addEventListener("keydown", (e) => {
 
       appendOutput(clickableMatchesHTML, true);
     }
+    return;
   }
 
+  // RESTORED ARROW KEY NAVIGATION
   if (e.key === "ArrowUp") {
+    e.preventDefault();
     if (historyIndex > 0) {
       historyIndex--;
       commandInput.value = commandHistory[historyIndex];
+    } else if (historyIndex === 0 && commandHistory.length > 0) {
+      commandInput.value = commandHistory[0];
     }
-    e.preventDefault();
+    return;
   }
 
   if (e.key === "ArrowDown") {
-    if (historyIndex < commandHistory.length - 1) {
+    e.preventDefault();
+    if (historyIndex >= 0 && historyIndex < commandHistory.length - 1) {
       historyIndex++;
       commandInput.value = commandHistory[historyIndex];
     } else {
       historyIndex = commandHistory.length;
       commandInput.value = "";
     }
-    e.preventDefault();
+    return;
   }
 });
 
@@ -334,7 +343,12 @@ output.addEventListener("click", (e) => {
   if (e.target.classList.contains("clickable")) {
     const cmd = e.target.getAttribute("data-cmd");
     if (cmd) {
-      appendOutput(`$ ${escapeHTML(cmd)}`, true);
+      appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
+      
+      // FIXED: Push clicked commands into history so arrow keys still work properly!
+      commandHistory.push(cmd);
+      historyIndex = commandHistory.length;
+
       const response = handleCommand(cmd);
       if (response) typeOutput(response, cmd);
       commandInput.value = "";
@@ -432,7 +446,7 @@ window.onload = () => {
 };
 
 function searchProfile(term) {
-  const results = [];
+  const results =[];
   const searchTerm = term.toLowerCase();
   const sectionHits = {};
 

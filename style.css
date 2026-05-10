@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: 'Courier New', monospace;
   background-color: #0d0d0d;
-  color: #00ff00;
+  color: #3399ff; /* Updated output text to blue */
   padding: 20px;
   font-size: 16px;
   line-height: 1.5;
@@ -10,7 +10,7 @@ body {
   margin: auto;
   /* Only show scrollbar when needed */
   overflow-y: auto;
-  scrollbar-color: #00ff00 #0d0d0d;
+  scrollbar-color: #00ff00 #0d0d0d; /* Green scrollbar for Firefox */
   scrollbar-width: thin;
 }
 
@@ -19,9 +19,26 @@ body {
   word-break: break-word;
 }
 
+/* Base prompt styling */
 .prompt {
-  color: #00ff00;
   font-weight: bold;
+}
+
+/* Individual prompt color components */
+.prompt-user {
+  color: #00ff00; /* Green user@host */
+}
+
+.prompt-colon {
+  color: #ffffff; /* White colon */
+}
+
+.prompt-tilde {
+  color: #3399ff; /* Blue tilde */
+}
+
+.prompt-dollar {
+  color: #ffffff; /* White dollar sign */
 }
 
 .input-line {
@@ -34,7 +51,7 @@ body {
 input {
   background: transparent;
   border: none;
-  color: #00ff00;
+  color: #ffffff; /* User typed command is white */
   font: inherit;
   outline: none;
   flex: 1;
@@ -43,14 +60,18 @@ input {
   width: 100%;
 }
 
+.cmd-echo {
+  color: #ffffff; /* Command history string is white */
+}
+
 a {
-  color: #00ff00;
+  color: #66b3ff;
   text-decoration: none;
 }
 
 .project-link:hover, .contact-link:hover, .source-link:hover {
-  background-color: #00ff00;
-  color: #1e1e1e;
+  background-color: #66b3ff;
+  color: #0d0d0d;
   text-decoration: none; /* Remove underline */
 }
 
@@ -64,7 +85,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #00ff00; /* Neon green thumb */
+  background-color: #00ff00; /* Green thumb */
   border-radius: 10px;
   border: 2px solid #0d0d0d; /* Matches background */
 }
@@ -73,24 +94,42 @@ a {
   cursor: pointer;
   padding: 2px 6px;
   user-select: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  color: #00ff00; /* terminal green text */
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #66b3ff; /* blue text for standard clickable links */
+  font-weight: bold; /* Made the commands bold */
+  border-radius: 2px;
 }
 
+/* Hover style for standard commands (Blue Highlight) */
 .clickable:hover {
-  background-color: #00ff00;
-  color: #1e1e1e; /* dark background color, text changes for contrast */
+  background-color: #3399ff; /* Blue highlight */
+  color: #0d0d0d; /* Text matches background color */
   text-decoration: none;
 }
 
 .clickable:active {
-  background-color: #008000; /* darker green */
+  background-color: #0077cc; /* darker blue for active click */
+  color: #ffffff;
+}
+
+/* Specific styling exclusively for the 'help' command */
+.clickable[data-cmd="help"] {
+  color: #00ff00; /* Keep help green initially */
+}
+
+.clickable[data-cmd="help"]:hover {
+  background-color: #00ff00; /* Green highlight only for help */
+  color: #0d0d0d; /* Text matches background color */
+}
+
+.clickable[data-cmd="help"]:active {
+  background-color: #00cc00;
   color: #ffffff;
 }
 
 ::selection {
-  background: #00ff00; /* Neon green background */
-  color: #1e1e1e;      /* Terminal background color as font color */
+  background: #3399ff; /* Blue background */
+  color: #0d0d0d;      /* Terminal background color as font color */
 }
 
 /* ASCII Art Banner */
@@ -104,7 +143,7 @@ a {
 
 /* Color styles */
 .info-text {
-  color: #87ff65;
+  color: #66b3ff; /* Light blue info */
   font-weight: bold;
 }
 
@@ -119,7 +158,7 @@ a {
 }
 
 .command-text {
-  color: #00f5ff;
+  color: #99ccff;
   font-weight: bold;
 }
 
@@ -139,12 +178,12 @@ a {
   margin-top: 1em;
   margin-bottom: 0.5em;
   display: block;
-  color: #00f5ff;
+  color: #99ccff;
 }
 
 /* Link styles */
 .project-link, .contact-link, .source-link {
-  color: #00ff00;
+  color: #66b3ff;
   text-decoration: none;
   cursor: pointer;
   padding: 2px 6px;
@@ -192,7 +231,7 @@ a {
 
 .section-title {
   font-weight: bold;
-  color: #00ff00; /* Terminal green */
+  color: #99ccff; /* Output title blue */
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   font-family: 'Courier New', Courier, monospace;
