@@ -90,6 +90,8 @@ const commands = {
 projects: `
 <div class="section-title">== [+] PROJECTS ==</div>
 [+] <a href="https://github.com/keerthiparam/ParamStock/blob/main/README.md" target="_blank" class="project-link"><strong>ParamStock</strong></a>      : Web App for real-time stock alerts (In Progress)
+[+] <a href="https://github.com/keerthiparam/TimeCapsule/blob/main/README.md" target="_blank" class="project-link"><strong>TimeCapsule</strong></a>     : Decentralized Internet Archive
+[+] <a href="https://github.com/Aravind-808/yapformer/blob/main/README.md" target="_blank" class="project-link"><strong>YapFormer</strong></a>       : Transformer with Modern Optimizations
 [+] <a href="https://github.com/keerthiparam/PhishMate/blob/main/README.md" target="_blank" class="project-link"><strong>PhishMate</strong></a>       : AI-powered phishing detection browser extension
 [+] <a href="https://github.com/keerthiparam/TalentDAO/blob/main/README.md" target="_blank" class="project-link"><strong>TalentDAO</strong></a>       : Web3 freelancer platform with decentralized reputation
 [+] <a href="https://github.com/keerthiparam/Dust-Buster/blob/main/README.md" target="_blank" class="project-link"><strong>DustBuster</strong></a>      : Arduino-based automation for cleaning tasks
