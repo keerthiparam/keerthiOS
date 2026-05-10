@@ -99,9 +99,11 @@ projects: `
 `,
 
 resume: () => {
-    window.open('https://docs.google.com/document/d/1_8awqWlxdFw7RIELNcMUJ54haw1jOJGvTQTLFg4NBT8/export?format=pdf', '_blank');
-    return '[::] Fetching Keerthi_KP_Resume_2026.pdf';
-  },
+  const url = 'https://docs.google.com/document/d/1_8awqWlxdFw7RIELNcMUJ54haw1jOJGvTQTLFg4NBT8/export?format=pdf';
+  window.open(url, '_blank');
+  
+  return `[::] Fetching Keerthi_KP_Resume_2026.pdf\n\nIf it doesn't work, try pasting this link into your browser: ${url}`;
+},
 
 contact: `
 <div class="section-title">== [+] CONTACT ==</div>
