@@ -177,6 +177,62 @@ const bootSequence =[
   { prefix: "[KeerthiOS]", main: " :: system online." },
 ];
 
+/**
+ * Calculates the Levenshtein distance between two strings.
+ * This measures how "different" two words are.
+ */
+function getLevenshteinDistance(a, b) {
+  const matrix = [];
+
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // substitution
+          matrix[i][j - 1] + 1,     // insertion
+          matrix[i - 1][j] + 1      // deletion
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+/**
+ * Finds the closest command from the commands object.
+ */
+function findClosestCommand(input) {
+  const validCommands = Object.keys(commands);
+  let minDistance = Infinity;
+  let closest = null;
+
+  for (const cmd of validCommands) {
+    const distance = getLevenshteinDistance(input, cmd);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closest = cmd;
+    }
+  }
+
+  // Threshold logic:
+  // 1. We only suggest if the distance is small (e.g., 1 or 2 edits).
+  // 2. We don't suggest if the word is very short (to avoid suggesting 'bio' when someone types 'b')
+  const threshold = 2;
+  if (closest && minDistance <= threshold && input.length > 2) {
+    return closest;
+  }
+  return null;
+}
+
 function escapeHTML(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -243,6 +299,7 @@ function handleCommand(input) {
 
   const cmd = input.trim().toLowerCase();
 
+  // 1. Check if it's a direct command
   if (commands[cmd]) {
     const command = commands[cmd];
     if (typeof command === "function") {
@@ -255,8 +312,8 @@ function handleCommand(input) {
     return command;
   }
 
-  // Otherwise fallback to first word command + args logic:
-  const[firstCmd, ...args] = input.trim().split(" ");
+  // 2. Check if it's a command with arguments (e.g., "bio degree")
+  const [firstCmd, ...args] = input.trim().split(" ");
   if (commands[firstCmd]) {
     const command = commands[firstCmd];
     if (typeof command === "function") {
@@ -265,8 +322,16 @@ function handleCommand(input) {
     return command;
   }
 
+  // 3. Check if it's an Easter Egg
   if (easterEggs[input]) return easterEggs[input];
 
+  // 4. NEW: Check for typos (Did you mean?)
+  const suggestion = findClosestCommand(cmd);
+  if (suggestion) {
+    return `[??] Command not found. Did you mean <span class="clickable" data-cmd="${suggestion}">${suggestion}</span>?`;
+  }
+
+  // 5. Final fallback
   return `[??] Command not found: ${escapeHTML(input)}`;
 }
 
