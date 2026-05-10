@@ -1,5 +1,6 @@
 const output = document.getElementById("output");
 const commandInput = document.getElementById("command");
+const inputLine = document.getElementById("input-line"); // Added reference
 const commandHistory =[];
 let historyIndex = -1;
 let isBooting = true;
@@ -104,18 +105,19 @@ resume: () => {
 
 contact: `
 <div class="section-title">== [+] CONTACT ==</div>
-[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>    : parami.keerthi@gmail.com
-[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>   : github.com/keerthiparam
-[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a> : linkedin.com/in/keerthiparam
+[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>     : parami.keerthi@gmail.com
+[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>    : github.com/keerthiparam
+[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a>  : linkedin.com/in/keerthiparam
 [+] <a href="https://instagram.com/keerthiparam_" target="_blank" class="contact-link"><strong>Instagram</strong></a> : instagram.com/keerthiparam_
-[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>  : discord.com/users/1154052200260194425
+[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>   : discord.com/users/1154052200260194425
 [+] <a href="https://leetcode.com/u/keerthiparam/" target="_blank" class="contact-link"><strong>LeetCode</strong></a>  : leetcode.com/u/keerthiparam
 `,
 
 hobbies: `
 <div class="section-title">== [+] HOBBIES ==</div>
 [+] <strong>Gaming</strong>       : Genshin Impact, Minecraft
-[+] <strong>Editing</strong>      : Short videos and content creation[+] <strong>Volunteering</strong> : Campus & community events
+[+] <strong>Editing</strong>      : Short videos and content creation
+[+] <strong>Volunteering</strong> : Campus & community events
 [+] <strong>Design</strong>       : Minimalist aesthetics and layouts
 `,
 
@@ -139,6 +141,7 @@ source: `[::] View the source code on <a href="https://github.com/keerthiparam/K
 
   greet: `<pre class="ascii-art permanent-flicker">
 [~] Type or click <b class="clickable" data-cmd="help">'help'</b> to see what you can break.
+
 </pre>`,
 
  search: function(args) {
@@ -272,6 +275,11 @@ commandInput.addEventListener("keydown", (e) => {
   const raw = commandInput.value;
   const cmd = raw.trim().toLowerCase().replace(/\s+/g, ' ');
 
+  // Prevent default arrow behavior globally to fix arrow key cursor jumping
+  if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+    e.preventDefault();
+  }
+
   if (raw.length > 150 && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
     e.preventDefault();
     return;
@@ -345,7 +353,7 @@ output.addEventListener("click", (e) => {
     if (cmd) {
       appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
       
-      // FIXED: Push clicked commands into history so arrow keys still work properly!
+      // Push clicked commands into history so arrow keys still work properly!
       commandHistory.push(cmd);
       historyIndex = commandHistory.length;
 
@@ -361,6 +369,9 @@ output.addEventListener("click", (e) => {
 function initializeTerminal() {
   appendOutput(commands.banner.trim(), true);
   appendOutput(commands.greet.trim(), true);
+  
+  // Reveal input line and focus
+  inputLine.style.display = "flex";
   setTimeout(() => {
     commandInput.focus();
     window.scrollTo(0, document.body.scrollHeight);
@@ -411,6 +422,7 @@ async function typeLine(lineObj, delay = 2000) {
 async function bootAnimation() {
   output.innerHTML = ""; // clear first
   isBooting = true;
+  inputLine.style.display = "none"; // Make sure it stays hidden during boot
 
   for (const line of bootSequence) {
     await typeLine(line, 150); // 1.5 seconds delay between parts
@@ -424,14 +436,15 @@ async function bootAnimation() {
   appendOutput(commands.greet.trim(), true);
 
   isBooting = false;
+  
+  // Terminal Boot Finished! Show the prompt and focus it.
+  inputLine.style.display = "flex";
   commandInput.disabled = false;
   commandInput.focus();
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 window.onload = () => {
-  commandInput.disabled = false;
-  commandInput.focus();
-
   const bootAlreadyShown = sessionStorage.getItem("bootShown");
 
   if (!bootAlreadyShown) {
@@ -441,7 +454,6 @@ window.onload = () => {
     isBooting = false;
     initializeTerminal(); // skip boot, go straight to terminal
     commandInput.disabled = false;
-    commandInput.focus();
   }
 };
 
@@ -477,7 +489,7 @@ function searchProfile(term) {
 
     textContent.split('\n').forEach(line => {
       if (line.toLowerCase().includes(searchTerm)) {
-        if (!sectionHits[section]) sectionHits[section] = [];
+        if (!sectionHits[section]) sectionHits[section] =[];
         sectionHits[section].push('   ' + highlight(line.trim(), searchTerm));
       }
     });
