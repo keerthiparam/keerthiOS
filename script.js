@@ -96,7 +96,7 @@ projects: `
 
 resume: () => {
     window.open('https://docs.google.com/document/d/1_8awqWlxdFw7RIELNcMUJ54haw1jOJGvTQTLFg4NBT8/export?format=pdf', '_blank');
-    return '[::] Fetching Keerthi_KP_Resume_2025.pdf';
+    return '[::] Fetching Keerthi_KP_Resume_2026.pdf';
   },
 
 contact: `
