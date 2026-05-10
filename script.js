@@ -117,8 +117,7 @@ contact: `
 
 hobbies: `
 <div class="section-title">== [+] HOBBIES ==</div>
-[::] I like a bit of everything, from drawing and painting to <a href="https://keerthiparam.github.io/photodump/" target="_blank" class="project-link"><strong>photos and videos</strong></a>.
-[::] I also like playing badminton.
+[::] Check out my hobbies<a href="https://keerthiparam.github.io/photodump/" target="_blank" class="project-link"><strong>here</strong></a>.
 `,
 
 source: `[::] View the source code on <a href="https://github.com/keerthiparam/KeerthiOS" target="_blank" class="source-link"><strong>GitHub</strong></a>`,
