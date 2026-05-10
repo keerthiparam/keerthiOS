@@ -12,6 +12,7 @@ const commands = {
   help: `Available commands:
 
   [+] bio
+  [+] about
   [+] skills
   [+] projects
   [+] resume
@@ -29,6 +30,22 @@ const commands = {
 "degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering with specialization in Cybersecurity and Honors in Artificial Intelligence`,
 "location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
 "college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
+
+  about: `<div class="section-title">== [+] ABOUT ME ==</div>
+------------------------------------------------------------
+Hi! I'm Keerthi, a junior at R.M.D. Engineering College pursuing 
+Computer Science with a specialization in Cybersecurity and AI. 
+
+My portfolio showcases my deep interest in the security 
+landscape. When I'm not here, you'll likely find me competing 
+in CTFs or building niche security projects. 
+
+I hope you enjoy exploring my work! Feel free to reach out 
+with any suggestions. 
+
+Bye!!
+------------------------------------------------------------
+`,
 
 skills: `
 <div class="section-title">== [+] SKILLS ==</div><table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
@@ -259,7 +276,8 @@ function colorizeOutput(text) {
     .replace(/\[\+]/g, '<span class="command-text">[+] </span>')
     .replace(/\[\?\?]/g, '<span class="warning-text">[??] </span>')
     .replace(/\[\?]/g, '<span class="question-text">[?] </span>')
-    .replace(/==\s*\[(.+?)\]\s*(.*?)\s*==/g, (_, symbol, title) => `<div class="section-header">==[${symbol}] <b>${title}</b> ==</div>`);
+    // This line now uses .section-title to match your Skills heading exactly
+    .replace(/==\s*\[(.+?)\]\s*(.*?)\s*==/g, (_, symbol, title) => `<div class="section-title">== [+] <b>${title}</b> ==</div>`);
 }
 
 function processHelp(text) {
@@ -291,7 +309,9 @@ function typeOutput(text, command = '') {
   if (/<\/?[a-z]/i.test(text)) return appendOutput(text, true);
   if (command === 'help') return appendOutput(processHelp(text), true);
   if (command === 'bio') return appendOutput(processBioCommands(text), true);
-  appendOutput(colorizeOutput(text), true);
+  
+  // This line is the most important part for the 'about' command!
+  appendOutput(colorizeOutput(text), true); 
 }
 
 function handleCommand(input) {

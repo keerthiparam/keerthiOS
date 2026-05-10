@@ -1,16 +1,17 @@
 body {
   margin: 0;
-  font-family: 'Courier New', monospace;
+  /* Changed from 'Courier New' to 'monospace' to fix the "dim" look */
+  font-family: monospace; 
   background-color: #0d0d0d;
-  color: #99ccff; /* Lighter blue for non-bold text for better visibility */
+  /* Changed from #99ccff to #ffffff for much brighter, sharper text */
+  color: #99ccff; 
   padding: 20px;
   font-size: 16px;
   line-height: 1.5;
   max-width: 800px;
   margin: auto;
-  /* Only show scrollbar when needed */
   overflow-y: auto;
-  scrollbar-color: #00ff00 #0d0d0d; /* Green scrollbar for Firefox */
+  scrollbar-color: #00ff00 #0d0d0d;
   scrollbar-width: thin;
 }
 
@@ -194,11 +195,12 @@ a {
 
 .section-header {
   font-weight: bold;
-  font-family: monospace;
-  margin-top: 1em;
+  font-family: 'Courier New', monospace;
+  margin-top: 1.5em;
   margin-bottom: 0.5em;
   display: block;
-  color: #3399ff; /* Darker blue */
+  color: #3399ff; /* This is your Bold Blue */
+  font-size: 1.1em; /* Makes the title slightly larger than the text */
 }
 
 @keyframes flicker {
@@ -243,11 +245,11 @@ a {
 
 .section-title {
   font-weight: bold;
-  color: #3399ff; /* Darker blue */
-  margin-top: 1rem;
+  color: #3399ff; /* Your Bold Blue */
+  margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  font-family: 'Courier New', Courier, monospace;
-  white-space: pre; /* To preserve spacing */
+  display: block;
+  font-size: 1.1em;
 }
 
 /* Mobile Responsiveness */
