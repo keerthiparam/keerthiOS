@@ -249,3 +249,45 @@ a {
   font-family: 'Courier New', Courier, monospace;
   white-space: pre; /* To preserve spacing */
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Makes the skills table stack vertically */
+  .skills-table thead {
+    display: none; /* Hide the original table header */
+  }
+
+  .skills-table, 
+  .skills-table tbody, 
+  .skills-table tr, 
+  .skills-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .skills-table tr {
+    margin-bottom: 20px; /* Space between groups of skills */
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+  }
+
+  .skills-table td {
+    text-align: left;
+    padding: 5px 0;
+    border: none !important; /* Remove cell borders for clean stacking */
+  }
+
+  /* Use the data-label to show the header text on mobile */
+  .skills-table td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    display: inline-block;
+    width: 100px; /* Fixed width for labels so content aligns */
+    color: #00ff00; /* Using your terminal green */
+  }
+}

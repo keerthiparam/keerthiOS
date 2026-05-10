@@ -30,7 +30,7 @@ const commands = {
 "location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
 "college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
-  skills: `
+skills: `
 <div class="section-title">== [+] SKILLS ==</div><table class="skills-table" style="border-collapse: collapse; width: 100%; font-family: monospace;">
   <thead>
     <tr>
@@ -42,46 +42,46 @@ const commands = {
   </thead>
   <tbody>
     <tr>
-      <td style="vertical-align: top;">- Python</td>
-      <td style="vertical-align: top;">- Flask</td>
-      <td style="vertical-align: top;">- MySQL</td>
-      <td style="vertical-align: top;">- Github</td>
+      <td data-label="Languages" style="vertical-align: top;">- Python</td>
+      <td data-label="Frameworks" style="vertical-align: top;">- Flask</td>
+      <td data-label="Databases" style="vertical-align: top;">- MySQL</td>
+      <td data-label="Tools" style="vertical-align: top;">- Github</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- Java</td>
-      <td style="vertical-align: top;">- Selenium</td>
-      <td></td>
-      <td style="vertical-align: top;">- Linux</td>
+      <td data-label="Languages" style="vertical-align: top;">- Java</td>
+      <td data-label="Frameworks" style="vertical-align: top;">- Selenium</td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools" style="vertical-align: top;">- Linux</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- C++</td>
-      <td></td>
-      <td></td>
-      <td style="vertical-align: top;">- VS Code</td>
+      <td data-label="Languages" style="vertical-align: top;">- C++</td>
+      <td data-label="Frameworks"></td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools" style="vertical-align: top;">- VS Code</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- C</td>
-      <td></td>
-      <td></td>
-      <td style="vertical-align: top;">- Wireshark</td>
+      <td data-label="Languages" style="vertical-align: top;">- C</td>
+      <td data-label="Frameworks"></td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools" style="vertical-align: top;">- Wireshark</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- HTML</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td data-label="Languages" style="vertical-align: top;">- HTML</td>
+      <td data-label="Frameworks"></td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools"></td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- CSS</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td data-label="Languages" style="vertical-align: top;">- CSS</td>
+      <td data-label="Frameworks"></td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools"></td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">- JavaScript</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td data-label="Languages" style="vertical-align: top;">- JavaScript</td>
+      <td data-label="Frameworks"></td>
+      <td data-label="Databases"></td>
+      <td data-label="Tools"></td>
     </tr>
   </tbody>
 </table>
