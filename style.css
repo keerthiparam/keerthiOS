@@ -74,18 +74,20 @@ a {
   text-decoration: none;
 }
 
+/* Added underline to all links to indicate they are clickable */
 .project-link, .contact-link, .source-link {
   color: #3399ff; /* Darker blue */
-  text-decoration: none;
+  text-decoration: underline;
   cursor: pointer;
   padding: 2px 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Remove underline on hover, as the background highlight is the main indicator */
 .project-link:hover, .contact-link:hover, .source-link:hover {
   background-color: #3399ff; /* Darker blue highlight */
   color: #0d0d0d;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none; 
 }
 
 /* Fix to ensure bolded text inside links turns dark on hover */

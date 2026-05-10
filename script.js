@@ -107,23 +107,21 @@ resume: () => {
 
 contact: `
 <div class="section-title">== [+] CONTACT ==</div>
-[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>     : parami.keerthi@gmail.com
-[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>    : github.com/keerthiparam
-[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a>  : linkedin.com/in/keerthiparam
-[+] <a href="https://instagram.com/keerthiparam_" target="_blank" class="contact-link"><strong>Instagram</strong></a> : instagram.com/keerthiparam_
-[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>   : discord.com/users/1154052200260194425
-[+] <a href="https://leetcode.com/u/keerthiparam/" target="_blank" class="contact-link"><strong>LeetCode</strong></a>  : leetcode.com/u/keerthiparam
+[+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>         : parami.keerthi@gmail.com
+[+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>        : github.com/keerthiparam
+[+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a>      : linkedin.com/in/keerthiparam
+[+] <a href="https://instagram.com/keerthiparam_" target="_blank" class="contact-link"><strong>Instagram</strong></a>     : instagram.com/keerthiparam_
+[+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>       : discord.com/users/1154052200260194425
+[+] <a href="https://leetcode.com/u/keerthiparam/" target="_blank" class="contact-link"><strong>LeetCode</strong></a>      : leetcode.com/u/keerthiparam
 `,
 
 hobbies: `
 <div class="section-title">== [+] HOBBIES ==</div>
-[+] <strong>Gaming</strong>       : Genshin Impact, Minecraft
-[+] <strong>Editing</strong>      : Short videos and content creation
-[+] <strong>Volunteering</strong> : Campus & community events
-[+] <strong>Design</strong>       : Minimalist aesthetics and layouts
+[::] I like a bit of everything, from drawing and painting to <a href="https://keerthiparam.github.io/photodump/" target="_blank" class="project-link"><strong>photos and videos</strong></a>.
+[::] I also like playing badminton.
 `,
 
-source: `[::] View the source code on <a href="https://github.com/keerthiparam/KeerthiOS" target="_blank" class="source-link"><strong><u>GitHub</u></strong></a>`,
+source: `[::] View the source code on <a href="https://github.com/keerthiparam/KeerthiOS" target="_blank" class="source-link"><strong>GitHub</strong></a>`,
 
   clear: () => {
   output.innerHTML = '';
@@ -143,7 +141,6 @@ source: `[::] View the source code on <a href="https://github.com/keerthiparam/K
 
   greet: `<pre class="ascii-art permanent-flicker">
 [~] Type or click <b class="clickable" data-cmd="help">'help'</b> to see what you can break.
-
 </pre>`,
 
  search: function(args) {
@@ -277,11 +274,6 @@ commandInput.addEventListener("keydown", (e) => {
   const raw = commandInput.value;
   const cmd = raw.trim().toLowerCase().replace(/\s+/g, ' ');
 
-  // Prevent default arrow behavior globally to fix arrow key cursor jumping
-  if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-    e.preventDefault();
-  }
-
   if (raw.length > 150 && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
     e.preventDefault();
     return;
@@ -355,7 +347,7 @@ output.addEventListener("click", (e) => {
     if (cmd) {
       appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
       
-      // Push clicked commands into history so arrow keys still work properly!
+      // FIXED: Push clicked commands into history so arrow keys still work properly!
       commandHistory.push(cmd);
       historyIndex = commandHistory.length;
 
