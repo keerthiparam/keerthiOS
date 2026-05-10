@@ -148,8 +148,8 @@ a {
 }
 
 ::selection {
-  background: #3399ff; /* Darker Blue background */
-  color: #0d0d0d;      /* Terminal background color as font color */
+  background: #555; /* Darker Blue background */
+  color: #eee;      /* Terminal background color as font color */
 }
 
 /* ASCII Art Banner */
