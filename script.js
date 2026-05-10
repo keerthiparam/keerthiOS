@@ -18,16 +18,12 @@ const commands = {
   `,
 
   bio: `<div class="section-title">== [+] BIO ==</div>  [+] <span class="clickable" data-cmd="bio degree">degree</span>
-  [+] <span class="clickable" data-cmd="bio specialization">specialization</span>
-  [+] <span class="clickable" data-cmd="bio honors">honors</span>
   [+] <span class="clickable" data-cmd="bio location">location</span>
   [+] <span class="clickable" data-cmd="bio college">college</span>
   `,
 
-"bio degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering`,
-"bio specialization": `[::] <strong>Specialization</strong> : Cybersecurity`,
-"bio honors": `[::] <strong>Honors</strong>         : Artificial Intelligence`,
-"bio location": `[::] <strong>Location</strong>       : Chennai`,
+"bio degree": `[::] <strong>Degree</strong>         : B.E. Computer Science and Engineering with specialization in Cybersecurity and Honors in Artificial Intelligence`,
+"bio location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
 "bio college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
   skills: `
@@ -49,13 +45,13 @@ const commands = {
     </tr>
     <tr>
       <td style="vertical-align: top;">- Java</td>
-      <td style="vertical-align: top;">- React</td>
+      <td style="vertical-align: top;">- Selenium</td>
       <td></td>
       <td style="vertical-align: top;">- Linux</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">- C++</td>
-      <td style="vertical-align: top;">- Selenium</td>
+      <td></td>
       <td></td>
       <td style="vertical-align: top;">- VS Code</td>
     </tr>
