@@ -104,7 +104,9 @@ contact: `
 [+] <a href="mailto:parami.keerthi@gmail.com" class="contact-link"><strong>Email</strong></a>    : parami.keerthi@gmail.com
 [+] <a href="https://github.com/keerthiparam" target="_blank" class="contact-link"><strong>GitHub</strong></a>   : github.com/keerthiparam
 [+] <a href="https://linkedin.com/in/keerthiparam" target="_blank" class="contact-link"><strong>LinkedIn</strong></a> : linkedin.com/in/keerthiparam
+[+] <a href="https://instagram.com/keerthiparam_" target="_blank" class="contact-link"><strong>Instagram</strong></a> : instagram.com/keerthiparam_
 [+] <a href="https://discord.com/users/1154052200260194425" target="_blank" class="contact-link"><strong>Discord</strong></a>  : discord.com/users/1154052200260194425
+[+] <a href="https://leetcode.com/u/keerthiparam/" target="_blank" class="contact-link"><strong>LeetCode</strong></a>  : leetcode.com/u/keerthiparam
 `,
 
 hobbies: `
