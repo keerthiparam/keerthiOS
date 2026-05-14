@@ -293,3 +293,16 @@ a {
     color: #00ff00; /* Using your terminal green */
   }
 }
+
+/* The Retro Blink Animation */
+@keyframes retro-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.retro-blink {
+  /* Blinks 4 times rapidly (0.15s per blink) */
+  animation: retro-blink 0.15s step-end 3;
+  /* Change color slightly during blink to make it feel "electric" */
+  color: #ffffff !important; 
+}

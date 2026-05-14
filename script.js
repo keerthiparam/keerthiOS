@@ -428,19 +428,32 @@ commandInput.addEventListener("keydown", (e) => {
 
 output.addEventListener("click", (e) => {
   if (e.target.classList.contains("clickable")) {
-    const cmd = e.target.getAttribute("data-cmd");
-    if (cmd) {
-      appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
-      
-      // FIXED: Push clicked commands into history so arrow keys still work properly!
-      commandHistory.push(cmd);
-      historyIndex = commandHistory.length;
+    const element = e.target;
+    const cmd = element.getAttribute("data-cmd");
 
-      const response = handleCommand(cmd);
-      if (response) typeOutput(response, cmd);
-      commandInput.value = "";
-      commandInput.focus();
-      setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 10);
+    if (cmd) {
+      // 1. Add the blink class to the element that was clicked
+      element.classList.add("retro-blink");
+
+      // 2. Wait for the animation to finish before executing the command
+      // We use 600ms because the animation takes (0.15s * 4) = 600ms
+      setTimeout(() => {
+        // Remove the class so it's clean for the next time it's clicked
+        element.classList.remove("retro-blink");
+
+        // 3. THE ACTUAL COMMAND LOGIC (Moved from your old click handler)
+        appendOutput(`<span class="prompt">${promptHTML}</span><span class="cmd-echo">${escapeHTML(cmd)}</span>`, true);
+        
+        commandHistory.push(cmd);
+        historyIndex = commandHistory.length;
+
+        const response = handleCommand(cmd);
+        if (response) typeOutput(response, cmd);
+        
+        commandInput.value = "";
+        commandInput.focus();
+        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 10);
+      }, 600); 
     }
   }
 });
