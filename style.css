@@ -301,8 +301,34 @@ a {
 }
 
 .retro-blink {
-  /* Blinks 4 times rapidly (0.15s per blink) */
+  /* Blinks 3 times rapidly (0.15s per blink) */
   animation: retro-blink 0.15s step-end 3;
   /* Change color slightly during blink to make it feel "electric" */
   color: #ffffff !important; 
+}
+
+/* The Container: This creates the neat columns */
+.help-grid {
+  display: grid;
+  /* This creates columns that are at least 140px wide. 
+     It will automatically add as many columns as can fit. */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px 20px; /* 10px vertical gap, 20px horizontal gap */
+  margin-top: 10px;
+  align-items: start;
+}
+
+/* The Individual Item: Ensures the symbol and text stay together */
+.help-item {
+  white-space: nowrap; /* Prevents the command name from breaking into two lines */
+  font-family: monospace;
+}
+
+/* Mobile optimization: If the screen is very small, 
+   make the columns even narrower to fit more on one line */
+@media (max-width: 400px) {
+  .help-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 2px 20px;
+  }
 }

@@ -31,8 +31,7 @@ const commands = {
 "location": `[::] <strong>Location</strong>       : Chennai, Tamil Nadu, India`,
 "college": `[::] <strong>College</strong>        : R.M.D. Engineering College`,
 
-  about: `<div class="section-title">== [+] ABOUT ME ==</div>
-------------------------------------------------------------
+  about: `<div class="section-title">== [+] ABOUT ME ==</div>------------------------------------------------------------
 Hi! I'm Keerthi, a junior at R.M.D. Engineering College pursuing 
 Computer Science with a specialization in Cybersecurity and AI. 
 
@@ -158,6 +157,7 @@ source: `[::] View the source code on <a href="https://github.com/keerthiparam/K
 
   greet: `<pre class="ascii-art permanent-flicker">
 [~] Type or click <b class="clickable" data-cmd="help">'help'</b> to see what you can break.
+
 </pre>`,
 
  search: function(args) {
@@ -281,17 +281,31 @@ function colorizeOutput(text) {
 }
 
 function processHelp(text) {
-  return text.split("\n").map(line => {
-    if (line.includes("[+]")) {
-      const cmd = line.split("[+]")[1].trim();
-      return `  [+] ${makeClickable(cmd)}<br>`;
+  const lines = text.split("\n").filter(line => line.trim() !== "");
+  const commandItems = [];
+  const textLines = [];
+
+  for (const line of lines) {
+    // Check if the line is a command (contains [+] or [-])
+    if (line.includes("[+]") || line.includes("[-]")) {
+      const symbol = line.includes("[+]") ? "[+]" : "[-]";
+      const cmd = line.split(symbol)[1].trim();
+      
+      // IMPORTANT: Wrap each command in a 'help-item' div
+      // This allows the CSS Grid to align them into columns
+      commandItems.push(`<div class="help-item">${symbol} ${makeClickable(cmd)}</div>`);
+    } else {
+      // It's just regular text
+      textLines.push(escapeHTML(line));
     }
-    if (line.includes("[-]")) {
-      const cmd = line.split("[-]")[1].trim();
-      return `  [-] ${makeClickable(cmd)}<br>`;
-    }
-    return escapeHTML(line) + "<br>";
-  }).join("");
+  }
+
+  const header = textLines.join("<br>");
+  
+  // Wrap all the individual items in a 'help-grid' container
+  const grid = `<div class="help-grid">${commandItems.join("")}</div>`;
+
+  return header + "<br>" + grid;
 }
 
 function processBioCommands(text) {
